@@ -1,0 +1,380 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+body {
+    background-color: #08030f;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    max-width: 1200px;
+    max-height: 800px;
+    box-shadow: 0 0 60px rgba(255, 69, 0, 0.4);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000000;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+/* INTERFAZ HUD */
+#hud {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.hud-item {
+    background: rgba(15, 10, 25, 0.85);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hud-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #ff9d00;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+.hud-value {
+    font-size: 18px;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 0 10px #ff5500;
+}
+
+.bar-container {
+    width: 90px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bar-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff5500, #ffcc00);
+    transition: width 0.1s linear;
+}
+
+.bar-fill.health {
+    width: 100%;
+    background: linear-gradient(90deg, #ff0055, #00ff88);
+}
+
+/* BARRA DE HABILIDADES ELEVADA */
+#skills-bar {
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.skill-btn {
+    background: rgba(20, 15, 35, 0.9);
+    border: 2px solid #ff5500;
+    color: #ffffff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 15px rgba(255, 85, 0, 0.5);
+}
+
+.skill-btn.hero-switch {
+    border-color: #00e1ff;
+    box-shadow: 0 0 15px rgba(0, 225, 255, 0.5);
+}
+
+.skill-btn small {
+    font-size: 8px;
+    color: #aaaaaa;
+}
+
+.skill-btn:active {
+    transform: scale(0.9);
+}
+
+/* PORTADA Y SOBREPUESTOS */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0d0614;
+    background: radial-gradient(circle at center, #1e0a28 0%, #05020a 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    z-index: 20;
+    overflow-y: auto;
+}
+
+.portal-badge {
+    background: #ff5500;
+    background: linear-gradient(90deg, #ff5500, #ff0077);
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    box-shadow: 0 0 15px rgba(255, 85, 0, 0.5);
+}
+
+.main-title {
+    font-size: 32px;
+    font-weight: 900;
+    color: #ff6600;
+    text-shadow: 0 0 20px rgba(255, 69, 0, 0.8);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    color: #dddddd;
+    font-size: 13px;
+    margin-bottom: 18px;
+    max-width: 90%;
+}
+
+.instructions {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    max-width: 480px;
+    width: 95%;
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.instructions h3 {
+    color: #ffcc00;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.instructions ul {
+    list-style: none;
+}
+
+.instructions li {
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+/* BOTONES DE LA PORTADA */
+.menu-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.info-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-main {
+    background: #ff4500;
+    background: linear-gradient(45deg, #ff4500, #ff8700);
+    border: none;
+    color: #ffffff;
+    padding: 14px 35px;
+    font-size: 18px;
+    font-weight: 800;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(255, 69, 0, 0.6);
+    transition: all 0.2s ease;
+}
+
+.btn-main:active {
+    transform: scale(0.95);
+}
+
+.btn-info {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.btn-info:active {
+    background: rgba(0, 225, 255, 0.2);
+    border-color: #00e1ff;
+}
+
+/* MODALES DE INFORMACIÓN */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.88);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+    padding: 15px;
+}
+
+.modal-card {
+    background: #1c102a;
+    border: 2px solid #ff5500;
+    padding: 20px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255, 85, 0, 0.5);
+}
+
+.modal-card h2 {
+    color: #ffcc00;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.info-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-left: 4px solid #00e1ff;
+}
+
+.info-item.highlight {
+    border-left-color: #ff0077;
+    background: rgba(255, 0, 119, 0.1);
+}
+
+.info-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 800;
+    color: #aaa;
+    letter-spacing: 1px;
+}
+
+.info-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.btn-close {
+    background: #ff0055;
+    border: none;
+    color: white;
+    padding: 8px 24px;
+    font-weight: 800;
+    font-size: 13px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* GAME OVER */
+h1.danger {
+    color: #ff0055;
+    font-size: 28px;
+    text-shadow: 0 0 20px #ff0055;
+}
+
+.final-stats {
+    font-size: 16px;
+    margin: 15px 0;
+    color: #dddddd;
+}
+
+.final-stats strong {
+    color: #ff9d00;
+    font-size: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ESCRITORIO O PANTALLAS MÁS GRANDES */
+@media (min-width: 600px) {
+    #skills-bar { bottom: 25px; }
+    .hud-item { padding: 8px 18px; }
+    .hud-label { font-size: 11px; }
+    .hud-value { font-size: 24px; }
+    .bar-container { width: 140px; height: 12px; }
+    .skill-btn { width: 58px; height: 58px; font-size: 22px; }
+    .main-title { font-size: 48px; }
+    .subtitle { font-size: 16px; }
+    .instructions li { font-size: 14px; }
+    .btn-main { font-size: 20px; padding: 16px 45px; }
+    .btn-info { font-size: 14px; padding: 10px 20px; }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Furia Volcánica - Héroes de la Ciudad</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="game-container">
+        <!-- Canvas para el juego -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Interfaz Superior (HUD) -->
+        <div id="hud" class="hidden">
+            <div class="hud-item">
+                <span class="hud-label">PUNTOS</span>
+                <span id="scoreText" class="hud-value">0</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">FIEBRE</span>
+                <div class="bar-container">
+                    <div id="feverBar" class="bar-fill"></div>
+                </div>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">SALUD</span>
+                <div class="bar-container">
+                    <div id="healthBar" class="bar-fill health"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra Inferior de Habilidades -->
+        <div id="skills-bar" class="hidden">
+            <button id="skill-freeze" class="skill-btn" title="Cámara Lenta">
+                <span>❄️</span> <small>[1]</small>
+            </button>
+            <button id="skill-blast" class="skill-btn" title="Onda Expansiva">
+                <span>💥</span> <small>[2]</small>
+            </button>
+            <button id="skill-shield" class="skill-btn" title="Super Escudo">
+                <span>🛡️</span> <small>[3]</small>
+            </button>
+            <button id="btn-switch-hero" class="skill-btn hero-switch" title="Cambiar Personaje">
+                <span id="hero-icon">👧</span> <small>[N/M]</small>
+            </button>
+        </div>
+
+        <!-- PORTADA Y MENÚ PRINCIPAL -->
+        <div id="start-screen" class="overlay">
+            <div class="portal-badge">🌋 EDICIÓN EDUCATIVA 🌋</div>
+            <h1 class="main-title">FURIA VOLCÁNICA</h1>
+            <p class="subtitle">¡Protege la ciudad con el escudo protector de los pequeños héroes!</p>
+
+            <div class="instructions">
+                <h3>🎮 Instrucciones del Juego:</h3>
+                <ul>
+                    <li>🏃 <strong>Mueve al Héroe:</strong> Desliza tu dedo o ratón para interceptar las rocas.</li>
+                    <li>👧/👦 <strong>Personaje:</strong> Toca el botón 👧/👦 para alternar entre la Niña y el Niño.</li>
+                    <li>💥 <strong>Toque Directo:</strong> Toca las rocas de lava en el aire para destruirlas rápido.</li>
+                    <li>⚡ <strong>Poderes (1, 2, 3):</strong> Congela el tiempo, explota la lava o aumenta tu escudo.</li>
+                </ul>
+            </div>
+
+            <!-- Botones de Acción de la Portada -->
+            <div class="menu-actions">
+                <button id="start-btn" class="btn-main pulse">¡COMENZAR MISIÓN!</button>
+                <div class="info-buttons">
+                    <button id="btn-creadora" class="btn-info">✨ Creadora</button>
+                    <button id="btn-docente" class="btn-info">📘 Info Académica</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL 1: Creadora del Juego -->
+        <div id="modal-creadora" class="modal-overlay hidden">
+            <div class="modal-card">
+                <h2>✨ Creadora del Juego</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">ESTUDIANTE:</span>
+                        <span class="info-val">Sheira Valentina</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">GRADO:</span>
+                        <span class="info-val">Décimo B (10° B)</span>
+                    </div>
+                    <div class="info-item highlight">
+                        <span class="info-label">INSTITUCIÓN EDUCATIVA:</span>
+                        <span class="info-val">Manuel María Mosquera</span>
+                    </div>
+                </div>
+                <button id="close-creadora" class="btn-close">CERRAR</button>
+            </div>
+        </div>
+
+        <!-- MODAL 2: Información Académica -->
+        <div id="modal-docente" class="modal-overlay hidden">
+            <div class="modal-card">
+                <h2>📘 Información Académica</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">DOCENTE:</span>
+                        <span class="info-val">Alvaro Stid Bolaños</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">ASIGNATURA:</span>
+                        <span class="info-val">Tecnología</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">COMPONENTE:</span>
+                        <span class="info-val">Inglés</span>
+                    </div>
+                </div>
+                <button id="close-docente" class="btn-close">CERRAR</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de Game Over -->
+        <div id="game-over-screen" class="overlay hidden">
+            <h1 class="danger">🌋 ¡LA CIUDAD FUE DESTRUIDA!</h1>
+            <div class="final-stats">
+                <p>Puntuación Final: <strong id="finalScore">0</strong></p>
+                <p>Impactos Bloqueados: <strong id="finalBlocks">0</strong></p>
+            </div>
+            <button id="restart-btn" class="btn-main">REINTENTAR</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
